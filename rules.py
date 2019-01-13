@@ -19,6 +19,7 @@ def parse_rules(rule_file):
 @click.argument('rule_file', type=click.Path(exists=True, readable=True, resolve_path=True))
 @click.option('-o', '--output', 'output_path', type=click.Path(writable=True, resolve_path=True), help='output file', default=None)
 def apply_rules(tag_file, rule_file, output_path):
+    '''apply rules to tags'''
     trigger, action = parse_rules(rule_file)
     tag_dict = extract_tags_from_file(tag_file)
     for timestamp, tags in tag_dict.items():

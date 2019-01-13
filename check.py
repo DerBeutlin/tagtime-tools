@@ -8,6 +8,7 @@ from merge import extract_tags_from_file
 @click.argument('controlled_vocabulary_file', type=click.Path(exists=True, readable=True, resolve_path=True))
 @click.option('--error-file', 'error_file', type=click.Path(exists=True, readable=True, resolve_path=True), default=None, help='path to file in which errors are reported')
 def check_tags(tag_file, controlled_vocabulary_file, error_file):
+    '''check if tags are part of controlled vocabulary'''
     controlled_vocabulary = []
     with open(controlled_vocabulary_file) as f:
         for line in f.readlines():

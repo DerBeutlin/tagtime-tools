@@ -3,6 +3,19 @@
 This repo consists of several tools to deal with logs from [[https://github.com/tagtime/TagTime][TagTime]].
 Until now there are tools to *merge* logs from different devices, to *import* tags from the Android app,
 to *check* if tags are consistent with a controlled vocabulary and finally to apply some simple *rules*. 
+** Commands
+   The scripts can be executed either by calling the script directly e.g. through
+#+BEGIN_SRC shell
+  ./merge.py ARGS
+  ./rules.py ARGS
+  ...
+#+END_SRC
+or through the ~tagtimetools~ master-command and subcommands:
+#+BEGIN_SRC shell
+  ./tagtimetools merge ARGS
+  ./tagtimetools rules ARGS
+  ...
+#+END_SRC
 
 ** Merging Tags
 Tags from two different files are merged and the result printed out through
