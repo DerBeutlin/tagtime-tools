@@ -50,3 +50,28 @@ means that each ~ank~ (Anki) tag triggers a ~lrn~ (Learn) tag, each ~car~ or ~tr
 and each ~cde~ (Coding) tag triggers both a ~wrk~ (Work) tag as well as a ~cmp~ (Computer) tag.
 
 I will maybe implement more complex rules in the future
+** Invocation script
+I merge tags from two different computers and a phone. Since the phone has no afk tags I use a script like the following
+  #+BEGIN_SRC shell
+     #!/usr/bin/env bash
+    # Import
+    ./androidimport.py $PHONE_DATABASE_FILE -o $PHONE_FILE
+
+    # Check
+    ./check.py $HOME_FILE $CONTROLLED_VOCABULARY --error-file $ERROR_FILE
+    ./check.py $PHONE_FILE $CONTROLLED_VOCABULARY --error-file $ERROR_FILE
+    ./check.py $WORKSTATION_FILE $CONTROLLED_VOCABULARY --error-file $ERROR_FILE
+    ./check.py $WORKNOTEBOOK_FILE $CONTROLLED_VOCABULARY --error-file $ERROR_FILE
+
+    # Merge
+    ./merge.py $WORKSTATION_FILE $WORKNOTEBOOK_FILE -o $TEMPORARY_FILE --global-tags afk,RETRO,off
+    ./merge.py $TEMPORARY_FILE $HOME_FILE -o $TEMPORARY_FILE --global-tags afk,RETRO,off
+    ./merge.py $TEMPORARY_FILE $PHONE_FILE -o $TEMPORARY_FILE 
+
+    # Rules
+    ./rules.py $TEMPORARY_FILE $RULES -o $MERGED_FILE
+
+    rm $TEMPORARY_FILE
+
+  #+END_SRC
+ 
