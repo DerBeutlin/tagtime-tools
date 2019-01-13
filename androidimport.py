@@ -2,11 +2,12 @@
 
 import sqlite3
 import click
+from merge import write_tag_dict_to_file,print_tag_dict
 
 
 @click.command()
 @click.argument('database', type=click.Path(exists=True, readable=True, resolve_path=True))
-@click.argument('output_file', type=click.Path(writable=True, resolve_path=True))
+@click.option('-o','--output','output_file', type=click.Path(writable=True, resolve_path=True),default=None,help='output file')
 def import_tags_from_database(database, output_file):
     '''import database and write the tags to the output file as a normal tagtime log'''
     conn = sqlite3.connect(database)
@@ -27,10 +28,10 @@ def import_tags_from_database(database, output_file):
             tags_at_ping[pings[ping_id]] = []
         tags_at_ping[pings[ping_id]].append(tags[tag_id])
 
-    with open(output_file,'w') as f:
-        for time in sorted(tags_at_ping.keys()):
-            string = str(time) + ' ' + ' '.join(tags_at_ping[time]) + '\n'
-            f.write(string)
+    if output_file:
+        write_tag_dict_to_file(output_file,tags_at_ping)
+    else:
+        print_tag_dict(tags_at_ping)
 
 
 if __name__ == '__main__':
