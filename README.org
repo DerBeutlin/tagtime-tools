@@ -1,6 +1,6 @@
 * TagTime Tools
   
-This repo consist of several tools to deal with logs from [[https://github.com/tagtime/TagTime][TagTime]].
+This repo consists of several tools to deal with logs from [[https://github.com/tagtime/TagTime][TagTime]].
 Until now there are tools to *merge* logs from different devices, to *import* tags from the Android app,
 to *check* if tags are consistent with a controlled vocabulary and finally to apply some simple *rules*. 
 
@@ -39,7 +39,7 @@ I can apply simple rules using
 #+BEGIN_SRC shell
 ./rules.py PATH_TO_LOG PATH_TO_RULES
 #+END_SRC
-where the rules file consists of triggers and actions seperated by a ~~~
+where the rules file consists of triggers and actions seperated by a ~
 e.g.
 #+BEGIN_SRC shell
   ank ~ lrn
@@ -53,7 +53,7 @@ I will maybe implement more complex rules in the future
 ** Invocation script
 I merge tags from two different computers and a phone. Since the phone has no afk tags I use a script like the following
   #+BEGIN_SRC shell
-     #!/usr/bin/env bash
+    #!/usr/bin/env bash
     # Import
     ./androidimport.py $PHONE_DATABASE_FILE -o $PHONE_FILE
 
@@ -61,11 +61,9 @@ I merge tags from two different computers and a phone. Since the phone has no af
     ./check.py $HOME_FILE $CONTROLLED_VOCABULARY --error-file $ERROR_FILE
     ./check.py $PHONE_FILE $CONTROLLED_VOCABULARY --error-file $ERROR_FILE
     ./check.py $WORKSTATION_FILE $CONTROLLED_VOCABULARY --error-file $ERROR_FILE
-    ./check.py $WORKNOTEBOOK_FILE $CONTROLLED_VOCABULARY --error-file $ERROR_FILE
 
     # Merge
-    ./merge.py $WORKSTATION_FILE $WORKNOTEBOOK_FILE -o $TEMPORARY_FILE --global-tags afk,RETRO,off
-    ./merge.py $TEMPORARY_FILE $HOME_FILE -o $TEMPORARY_FILE --global-tags afk,RETRO,off
+    ./merge.py $WORKSTATION_FILE $HOME_FILE -o $TEMPORARY_FILE --global-tags afk,RETRO,off
     ./merge.py $TEMPORARY_FILE $PHONE_FILE -o $TEMPORARY_FILE 
 
     # Rules
