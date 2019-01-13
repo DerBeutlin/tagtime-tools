@@ -56,7 +56,7 @@ def print_tag_dict(tags_at_pings):
 def remove_global_tags_not_present_in_both_sets(set1, set2, global_tags):
     '''for tags which have to be in both sets in order to be relevant e.g. like afk they are removed if not in both sets'''
     for global_tag in global_tags:
-        if global_tag in set1 and off_tag not in set2:
+        if global_tag in set1 and global_tag not in set2:
             set1.remove(global_tag)
         elif global_tag not in set1 and global_tag in set2:
             set2.remove(global_tag)
@@ -75,12 +75,6 @@ def merge_tag_dicts(dict1, dict2, global_tags=[]):
     return merged_dict
 
 
-def read_vocublary_file(path):
-    tags = []
-    with open(path) as f:
-        for line in f.readlines():
-            tags.append(line.split(',')[0])
-    return tags
 
 
 @click.command()
@@ -88,13 +82,8 @@ def read_vocublary_file(path):
 @click.argument('path2', type=click.Path(exists=True, readable=True, resolve_path=True))
 @click.option('-o', '--output', 'output_path', type=click.Path(writable=True, resolve_path=True), help='output file', default=None)
 @click.option('--global-tags', 'global_tags', help='comma seperated list of tags which have to be in both sets in order to survive like e.g. afk', default='')
-def merge_tags(path1, path2, output_path, global_tags, controlled_vocabulary_file, error_file):
+def merge_tags(path1, path2, output_path, global_tags):
     '''merge tags from path1 and path2'''
-    if controlled_vocabulary_file:
-        controlled_vocabulary = read_vocublary_file(controlled_vocabulary_file)
-    else:
-        controlled_vocabulary = None
-    print(controlled_vocabulary)
     global_tags = global_tags.split(',')
     dict1 = extract_tags_from_file(path1)
     dict2 = extract_tags_from_file(path2)

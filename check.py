@@ -16,8 +16,8 @@ def check_tags(tag_file, controlled_vocabulary_file, error_file):
     for timestamp, tags in tag_dict.items():
         for tag in tags:
             if tag not in controlled_vocabulary:
-                error = '{} at {} not in controlled vocabulary'.format(
-                    tag, timestamp)
+                error = '{} at {} in {} is not in controlled vocabulary'.format(
+                    tag, timestamp, tag_file)
                 if error_file:
                     with open(error_file, 'a') as f:
                         f.write('\n* ' + error + '\n')
