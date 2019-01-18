@@ -2,7 +2,7 @@
   
 This repo consists of several tools to deal with logs from [[https://github.com/tagtime/TagTime][TagTime]].
 Until now there are tools to *merge* logs from different devices, to *import* tags from the Android app,
-to *check* if tags are consistent with a controlled vocabulary and finally to apply some simple *rules*. 
+to *check* if tags are consistent with a controlled vocabulary,apply some simple *rules* and finally get some *analysis* on the tags.
 ** Commands
    The scripts can be executed either by calling the script directly e.g. through
 #+BEGIN_SRC shell
@@ -63,6 +63,28 @@ means that each ~ank~ (Anki) tag triggers a ~lrn~ (Learn) tag, each ~car~ or ~tr
 and each ~cde~ (Coding) tag triggers both a ~wrk~ (Work) tag as well as a ~cmp~ (Computer) tag.
 
 I will maybe implement more complex rules in the future
+** Analysis
+Using 
+#+BEGIN_SRC shell
+./analysis.py PATH_TO_LOG
+#+END_SRC
+a table with each tag with the corresponding time estimation for this tag.
+#+BEGIN_SRC shell
+  Tag      h per 24 h (mean)    lower bound    upper bound
+  ALL      24                    23.11         24.9
+  ...
+#+END_SRC
+The lower and upper bounds result from the gamma distribution in the lower and upper 0.05 tail.
+
+The following options are available
+| flag             | description                                             | example              |
+|------------------+---------------------------------------------------------+----------------------|
+| -b/--begin       | limit to tags after this time (default year 1)          | -b "2018-01-01"      |
+| -e/--end         | limit to tags before this time (default today)          | -e "2018-02-01"      |
+| -g/--gap         | average number of hours between tags (default 0.75)     | -g 2.0               |
+| -p/--period      | duration per period in hours is printed (default 24)    | -g 1                 |
+| -tbl-format      | table format supported by tabulate (default simple)     | -tbl-format "orgtbl" |
+| -o/--output-file | if set table is written to this file instead of printed | -o /tmp/table.txt    |
 ** Invocation script
 I merge tags from two different computers and a phone. Since the phone has no afk tags I use a script like the following
   #+BEGIN_SRC shell
