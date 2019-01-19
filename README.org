@@ -105,7 +105,7 @@ than one ~GAP~. There is only one entry for each day with the total count of the
 tags at this day. By default existing entries are not updated unless the
 ~--update~ flag is provided. Additionally one can use the ~--gap~ option to
 choose a ~GAP~ different from 0.75h and one can provide a different config file
-using ~-c/--config~.
+using ~-c/--config~. Additionally the time range can be restricted with ~--begin~ and ~--end~.
 
 ** Invocation script
 I merge tags from two different computers and a phone. Since the phone has no afk tags I use a script like the following
