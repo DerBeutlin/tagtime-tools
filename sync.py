@@ -14,7 +14,7 @@ class BeeminderGoal:
         self.goal = goal
         self.auth_token = auth_token
         self.datapoints = self.get_datapoints()
-        self.days = (d['daystamp'] for d in self.datapoints)
+        self.days = [d['daystamp'] for d in self.datapoints]
         self.gap = gap
 
     def get_datapoints(self, ):
@@ -34,6 +34,7 @@ class BeeminderGoal:
             'auth_token': self.auth_token
         }
         requests.post(url, data=params)
+        print('synced {}'.format(daystamp))
 
     def delete_data_for_day(self, daystamp):
         for d in self.datapoints:
@@ -49,7 +50,7 @@ class BeeminderGoal:
         for d in self.datapoints:
             if d['daystamp'] == daystamp:
                 value += d['value']
-        return value == new_value
+        return abs(value-new_value) < 10e-4
 
 
 def get_daily_count(tags):
@@ -118,12 +119,10 @@ def sync(path, goal, synctags, gap, update, configfile, begin, end):
         value = sumTagTime(count, synctags, gap)
         if day in bgoal.days:
             if (not update or bgoal.isConsistent(day, value)):
-                print(day, value)
                 continue
             else:
                 bgoal.delete_data_for_day(day)
         bgoal.post_datapoint(day, value)
-        print('synced {}'.format(day))
 
 
 if __name__ == '__main__':
