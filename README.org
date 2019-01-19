@@ -1,8 +1,10 @@
 * TagTime Tools
   
-This repo consists of several tools to deal with logs from [[https://github.com/tagtime/TagTime][TagTime]].
-Until now there are tools to *merge* logs from different devices, to *import* tags from the Android app,
-to *check* if tags are consistent with a controlled vocabulary,apply some simple *rules* and finally get some *analysis* on the tags.
+This repo consists of several tools to deal with logs from [[https://github.com/tagtime/TagTime][TagTime]]. Until now
+there are tools to *merge* logs from different devices, to *import* tags from
+the Android app, to *check* if tags are consistent with a controlled
+vocabulary,apply some simple *rules*, get some *analysis* on the tags and
+finally sync it to beeminder goals.
 ** Commands
    The scripts can be executed either by calling the script directly e.g. through
 #+BEGIN_SRC shell
@@ -85,6 +87,26 @@ The following options are available
 | -p/--period      | duration per period in hours is printed (default 24)    | -g 1                 |
 | -tbl-format      | table format supported by tabulate (default simple)     | -tbl-format "orgtbl" |
 | -o/--output-file | if set table is written to this file instead of printed | -o /tmp/table.txt    |
+** Sync it to beeminder
+In order for the authentication to work one has to create a file `~/.bmndrrc` with the following content:
+#+BEGIN_SRC shell
+ [account]
+  auth_token: XXXXXXXXXXXX
+  user: username
+#+END_SRC
+The token can be obtained [[https://www.beeminder.com/api/v1/auth_token.json][here]].
+One can then sync the tags to beeminder using the following command
+#+BEGIN_SRC shell
+./sync.py PATH_TO_LOG SLUG --tags COMMA,SEPERATED,LIST,OF,TAGS 
+#+END_SRC
+*ATTENTION*: right now, each tag counts seperately therefore if the same ping is
+tagged with multiple tags that count to this goal, one ping can account for more
+than one ~GAP~. There is only one entry for each day with the total count of the
+tags at this day. By default existing entries are not updated unless the
+~--update~ flag is provided. Additionally one can use the ~--gap~ option to
+choose a ~GAP~ different from 0.75h and one can provide a different config file
+using ~-c/--config~.
+
 ** Invocation script
 I merge tags from two different computers and a phone. Since the phone has no afk tags I use a script like the following
   #+BEGIN_SRC shell
