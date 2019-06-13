@@ -59,7 +59,7 @@ def get_daily_count(tags):
         year=begin_dt.year, month=begin_dt.month, day=begin_dt.day)
     end_day = dt.date.today()
     duration = end_day - begin_day
-    days = [begin_day + dt.timedelta(d) for d in range(1, duration.days)]
+    days = [begin_day + dt.timedelta(d) for d in range(1, duration.days + 1)]
     counts = {}
     for day in days:
         day_begin = dt.datetime.combine(day, dt.time())
