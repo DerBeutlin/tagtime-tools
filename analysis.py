@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import click
-from tabulate import tabulate
 from merge import extract_tags_from_file
 import datetime as dt
 from dateutil.relativedelta import relativedelta
@@ -83,6 +82,7 @@ def get_hours_per_period_with_error(counts, gap, period):
     default=None)
 def print_estimations(path, begin, end, gap, period, tbl_format, output_file):
     '''print estimations with higher and lower bound in table'''
+    from tabulate import tabulate
     begin, end = parse_begin_end(begin, end)
     tags = extract_tags_from_file(path)
     tags = filter_tags_by_date_range(tags, begin, end)
