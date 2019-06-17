@@ -58,11 +58,12 @@ where the rules file consists of triggers and actions seperated by a ~
 e.g.
 #+BEGIN_SRC shell
   ank ~ lrn
-  car,trn ~ tvl
-  cde ~ wrk cmp
+  car|trn ~ tvl
+  cde&wrk ~ prd cmp
 #+END_SRC
 means that each ~ank~ (Anki) tag triggers a ~lrn~ (Learn) tag, each ~car~ or ~trn~ (Train) tag triggers a ~tvl~ (Travel) tag, 
-and each ~cde~ (Coding) tag triggers both a ~wrk~ (Work) tag as well as a ~cmp~ (Computer) tag.
+and each ~cde~ (Coding) and simultaneous ~wrk~ (Work) tag triggers both a ~prd~ (productive) tag as well as a ~cmp~ (Computer) tag.
+Right now in on line ony | or & are allowed.
 
 I will maybe implement more complex rules in the future
 ** Analysis
