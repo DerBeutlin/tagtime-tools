@@ -4,6 +4,10 @@ import click
 from merge import extract_tags_from_file, print_tag_dict, write_tag_dict_to_file
 from warnings import warn
 
+def check_tag(tag,input_tags):
+    if tag.startswith('!'):
+        return tag[1:].strip() not in input_tags
+    return tag in input_tags
 
 class Rule(object):
     def __init__(self, triggers, actions):
@@ -11,7 +15,10 @@ class Rule(object):
         self.actions = actions
 
     def check(self, input_tags):
-        return self.logicOperator([t in input_tags for t in self.triggers])
+        if not input_tags:
+            return False
+        return self.logicOperator([check_tag(t,input_tags) for t in self.triggers])
+
 
     def apply(self, input_tags):
         if self.check(input_tags):
