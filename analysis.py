@@ -6,7 +6,6 @@ import datetime as dt
 from dateutil.relativedelta import relativedelta
 import itertools
 from collections import Counter, OrderedDict
-from scipy.stats import gamma
 from dateutil.parser import parse as dparse
 
 
@@ -33,6 +32,7 @@ def count_tags(tags):
 
 def get_bound(count, q):
     '''get upper/lower bound from gamma distribution'''
+    from scipy.stats import gamma
     return gamma.ppf(q=q, a=count)
 
 
