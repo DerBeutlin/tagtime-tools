@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import click
-from merge import extract_tags_from_file
+from tagtime.merge import extract_tags_from_file
 
 
 @click.command()

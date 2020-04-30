@@ -1,3 +1,7 @@
 tabulate
+matplotlib
 scipy
 click
+numpy
+python-dateutil
+requests
